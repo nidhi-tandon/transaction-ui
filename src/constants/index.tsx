@@ -7,7 +7,6 @@ export const FLOW_STEPS = {
 export const TRANSACTION_STATUS = {
     PROCESSING: "Processing",
     SENT: "Sent",
-    SETTLED: "Settled",
     FAILED: "Failed",
 } as const;
 

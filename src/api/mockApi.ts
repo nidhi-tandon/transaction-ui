@@ -8,7 +8,6 @@ interface QuoteResponse {
 type TransactionStatus =
     | "Processing"
     | "Sent"
-    | "Settled"
     | "Failed";
 
 
@@ -49,7 +48,6 @@ export const getTransaction = async (
     const states: TransactionStatus[] = [
         "Processing",
         "Sent",
-        "Settled",
         "Failed",
     ];
 

@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useQuoteTimer = (expiresAt: number | null) => {
-    const [timeLeftInMs, setTimeLeftInMs] = useState(expiresAt - Date.now());
+    const [timeLeftInMs, setTimeLeftInMs] = useState(expiresAt ? expiresAt - Date.now() : 0);
 
-    const updateTimer = () => {
+    const updateTimer = useCallback(() => {
+        if (!expiresAt) return;
+
         const remaining = Math.max(
             0,
             expiresAt - Date.now()
         );
         setTimeLeftInMs(remaining);
         return remaining;
-    }
+    }, [expiresAt])
 
     useEffect(() => {
         if (!expiresAt) return;
 
-        setTimeLeftInMs(() => updateTimer())
+        updateTimer()
 
         const interval = setInterval(() => {
             const remaining = updateTimer();
@@ -25,7 +27,7 @@ export const useQuoteTimer = (expiresAt: number | null) => {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [expiresAt]);
+    }, [expiresAt, updateTimer]);
 
     return timeLeftInMs
 };

@@ -92,7 +92,7 @@ const ConfirmScreen = ({quote, quoteRequest, onPaymentSuccess, onRetryQuote}: Pr
             <button
                 aria-label={loading ? "Processing..." : "Pay Now"}
                 onClick={handlePay}
-                disabled={loading || expired}
+                disabled={loading || expired || retrying}
                 className="w-full bg-green-600 text-white py-2.5 rounded-lg hover:bg-green-700 disabled:opacity-50"
             >
                 {loading ? "Processing..." : "Pay Now"}
@@ -103,7 +103,7 @@ const ConfirmScreen = ({quote, quoteRequest, onPaymentSuccess, onRetryQuote}: Pr
                     ? "Refreshing..."
                     : "Refresh Quote"}
                 onClick={handleRetry}
-                disabled={retrying}
+                disabled={retrying || loading}
                 className="w-full border border-gray-300 py-2.5 rounded-lg hover:bg-gray-100 disabled:opacity-50"
             >
                 {retrying

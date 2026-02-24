@@ -23,7 +23,7 @@ export const useTransactionStatus = (
                 setStatus(res.status);
 
                 if (
-                    res.status === TRANSACTION_STATUS.SETTLED ||
+                    res.status === TRANSACTION_STATUS.SENT ||
                     res.status === TRANSACTION_STATUS.FAILED
                 ) {
                     clearInterval(interval);

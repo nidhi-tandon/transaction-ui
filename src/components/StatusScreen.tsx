@@ -22,7 +22,7 @@ const StatusScreen = ({transactionId,onRestart}: Props) => {
 
             <div className="bg-gray-50 rounded-2xl p-6 space-y-4 shadow-sm" aria-live="polite">
 
-                {status === TRANSACTION_STATUS.SETTLED && (
+                {status === TRANSACTION_STATUS.SENT && (
                     <div className="flex justify-center">
                         <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center">
                             <svg
@@ -44,7 +44,7 @@ const StatusScreen = ({transactionId,onRestart}: Props) => {
 
                 <p
                     className={`text-xl font-semibold ${
-                        status === TRANSACTION_STATUS.SETTLED
+                        status === TRANSACTION_STATUS.SENT
                             ? "text-green-600"
                             : status === TRANSACTION_STATUS.FAILED
                                 ? "text-red-600"
@@ -54,9 +54,9 @@ const StatusScreen = ({transactionId,onRestart}: Props) => {
                     {status}
                 </p>
 
-                {status === TRANSACTION_STATUS.SETTLED && (
+                {status === TRANSACTION_STATUS.SENT && (
                     <p className="text-sm text-gray-600">
-                        Your funds have been successfully delivered.
+                        Your funds have been successfully sent.
                     </p>
                 )}
 
