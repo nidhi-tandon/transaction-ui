@@ -80,3 +80,11 @@ UI transitions are fully state-driven.
 - Although this app is small in scope, for a production-ready version I would consider introducing React Query for better async state management and routing based on API responses.
 
 - In a production-ready environment, WebSockets or Server-Sent Events would be more appropriate than polling for real-time transaction updates.
+
+
+### UI Recording
+
+
+
+https://github.com/user-attachments/assets/eb2c3bea-12fb-4923-b1da-c51b96d3e230
+
