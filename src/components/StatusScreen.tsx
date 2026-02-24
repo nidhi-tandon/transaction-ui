@@ -82,7 +82,7 @@ const StatusScreen = ({transactionId,onRestart}: Props) => {
                 </div>
             </div>
 
-            {(status === TRANSACTION_STATUS.SETTLED ||
+            {(status === TRANSACTION_STATUS.SENT ||
                 status === TRANSACTION_STATUS.FAILED) && (
                 <button
                     aria-label="Start New Transfer"

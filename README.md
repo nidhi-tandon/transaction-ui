@@ -1,74 +1,82 @@
-# React + TypeScript + Vite
+# Transaction Experience Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simplified frontend experience for an international money transfer flow built with **React + TypeScript + Vite + Tailwind CSS**.
 
-Currently, two official plugins are available:
+The app models a typical cross-border transfer lifecycle:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Get FX Quote
+2. Confirm & Pay
+3. Track Transaction Status
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 How to Run
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🏗 Architecture
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The flow is controlled using a simple state model:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-# transaction-ui
+- QUOTE
+- CONFIRM 
+- STATUS
+
+UI transitions are fully state-driven.
+
+### 🔄 Flow Overview
+* Quote Screen
+
+    - User selects currencies and amount. 
+    - Calls POST /quote (mocked). 
+    - Displays rate, fees, total, and expiry timestamp. 
+    - Countdown timer is derived from server-provided expiry. 
+    - Quote can be refreshed anytime.
+  
+
+* Confirm & Pay
+    - Displays full transfer breakdown. 
+    - POST /pay returns a transaction ID 
+    - Transaction Status is handled on the next screen.
+
+
+* Status
+    - Polls GET /transaction/:id. 
+    - Displays: Processing, Sent, Failed. 
+    - Allows restart after completion or failure.
+  
+
+## 🔑 Key Design Decisions 
+• State-Driven Flow 
+   - The app is modeled around a single FlowStep state (QUOTE → CONFIRM → STATUS)
+   - It keeps transitions predictable
+
+• Separation of Initiation and Settlement of payment
+  - POST /pay API only creates a transaction attempt 
+  - Final success/failure is handled status polling
+
+• Server-Driven Quote Expiry
+- Countdown derived from backend 
+- It will keep the UI aligned with backend 
+
+• Polling Encapsulated in a Custom Hook
+- Stops polling automatically on terminal states
+
+• Clear Separation of Data Responsibilities
+- `quote`, `quoteRequest`, and `transactionId` stored independently
+- It makes the code and retry logic clean
+
+
+## What you would improve with more time?
+- I would have focused more on improving the app’s responsiveness and refining the UI to make it more polished and production-ready.
+
+- The transaction ID could be stored in localStorage to persist the transaction state across page refreshes.
+
+- Given more time, I would have expanded the test coverage by adding E2E tests with Playwright.
+
+- Although this app is small in scope, for a production-ready version I would consider introducing React Query for better async state management and routing based on API responses.
+
+- In a production-ready environment, WebSockets or Server-Sent Events would be more appropriate than polling for real-time transaction updates.
